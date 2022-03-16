@@ -16,10 +16,8 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
-      "architect": 
-      {
-        "build": 
-        {
+      "architect": {
+        "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/client",
@@ -32,7 +30,10 @@
               "src/assets"
             ],
             "styles": [
-              
+        
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -69,20 +70,16 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": 
-        {
+        "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": 
-          {
+          "options": {
             "sslKey": "./ssl/server.key",
             "sslCert": "./ssl/server.crt",
             "ssl": true,
             "browserTarget": "client:build"
           },
-          "configurations": 
-          {
-            "production": 
-            {
+          "configurations": {
+            "production": {
               "browserTarget": "client:build:production"
             }
           }
