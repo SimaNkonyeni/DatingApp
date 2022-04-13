@@ -23,7 +23,8 @@ namespace API.Services
             // Add claims
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.Username)
+                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
             };
 
             // Create credentials
