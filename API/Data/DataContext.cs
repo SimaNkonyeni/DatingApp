@@ -18,6 +18,8 @@ namespace API.Data
         }
 
         public DbSet<UserLike> Likes { get; set; }
+
+         public DbSet<UserVisit> Visits { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -55,7 +57,22 @@ namespace API.Data
                 .HasForeignKey(s => s.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Message>()
+                builder.Entity<UserVisit>()
+                .HasKey(k => new { k.SourceUserId, k.VisitedUserId });
+
+                builder.Entity<UserVisit>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.VisitedUsers)
+                .HasForeignKey(s => s.SourceUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+              
+               builder.Entity<UserVisit>()
+                .HasOne(s => s.VisitedUser)
+                .WithMany(l => l.VisitedByUsers)
+                .HasForeignKey(s => s.VisitedUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+               builder.Entity<Message>()
                 .HasOne(u => u.Recipient)
                 .WithMany(m => m.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
