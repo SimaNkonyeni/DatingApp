@@ -105,6 +105,6 @@ export class MembersService {
   getVisits(predicate: string, pageNumber, pageSize) {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
-    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
+    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'Visits', params, this.http);
   }
 }

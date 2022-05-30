@@ -9,6 +9,6 @@ namespace API.Interfaces
     {
         Task<UserVisit> GetUserVisit(int sourceUserId, int VisitedUserId);
         Task<AppUser> GetUserWithVisits(int userId);
-        Task<PagedList<VisitDto>> GetUserVisits(LikesParams likesParams);
+        Task<PagedList<VisitDto>> GetUserVisits(VisitsParams visitsParams);
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +31,7 @@ namespace API.Controllers
 
             if (sourceUser.UserName == username) return BadRequest("You cannot visit yourself");
 
-            var userVisit = await _unitOfWork.VisitsRepository.GetUserLike(sourceUserId, visitedUser.Id);
+            var userVisit = await _unitOfWork.VisitsRepository.GetUserVisit(sourceUserId, visitedUser.Id);
 
             if (userVisit != null) return BadRequest("You already like this user");
 
@@ -50,7 +51,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VisitDto>>> GetUserVisits([FromQuery] VisitsParams visitsParams)
         {
-            likesParams.UserId = User.GetUserId();
+            VisitsParams.UserId = User.GetUserId();
             var users = await _unitOfWork.VisitsRepository.GetUserVisits(visitsParams);
 
             Response.AddPaginationHeader(users.CurrentPage,

@@ -5,6 +5,7 @@ using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
@@ -21,21 +22,21 @@ namespace API.Data
             return await _context.Visits.FindAsync(sourceUserId, visitedUserId);
         }
 
-        public async Task<PagedList<VisitDto>> GetUserVisits(VisitsParams VisitsParams)
+        public async Task<PagedList<VisitDto>> GetUserVisits(VisitsParams visitsParams)
         {
             var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
-            var likes = _context.Visits.AsQueryable();
+            var visits = _context.Visits.AsQueryable();
 
-            if (VisitsParams.Predicate == "Visited")
+            if (visitsParams.Predicate == "Visited")
             {
-                visits = visits.Where(visit => visit.SourceUserId == VisitsParams.UserId);
-                users = visits.Select(visit =>visit.LikedUser);
+                visits = visits.Where(visit => visit.SourceUserId == visitsParams.UserId);
+                users = visits.Select(visit => visit.VisitedUser);
             }
 
-            if (VisitsParams.Predicate == "VisitedBy")
+            if (visitsParams.Predicate == "VisitedBy")
             {
                 visits = visits.Where(visit => visit.VisitedUserId == visitsParams.UserId);
-                users = visits.Select(like => visit.SourceUser);
+                users = visits.Select(visit => visit.SourceUser);
             }
 
             var visitedUsers = users.Select(user => new VisitDto
@@ -48,8 +49,8 @@ namespace API.Data
                 Id = user.Id
             });
 
-            return await PagedList<LikeDto>.CreateAsync(visitedUsers, 
-                VisitsParams.PageNumber, visitsParams.PageSize);
+            return await PagedList<VisitDto>.CreateAsync(visitedUsers, 
+                visitsParams.PageNumber, visitsParams.PageSize);
         }
 
         public async Task<AppUser> GetUserWithVisits(int userId)
