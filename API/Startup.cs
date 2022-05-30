@@ -1,3 +1,7 @@
+/** 
+    Name and Surname: Simamkele Nkonyeni
+    Student Number: 2017139144
+**/
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+
 
 namespace API
 {
